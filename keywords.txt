@@ -1,0 +1,30 @@
+#######################################
+# Syntax Coloring Map For DellPSU
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DellPSU	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+psu_detected	KEYWORD2
+read_data	KEYWORD2
+watts	KEYWORD2
+millivolts	KEYWORD2
+milliamps	KEYWORD2
+
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+DELL_PSU_BYTES_TO_READ LITERAL1
