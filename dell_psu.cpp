@@ -28,7 +28,7 @@ boolean DellPSU::read_data(){
     byte ccrc;                          // Variable to store the command CRC
     byte ccrc_calc;
     byte data[DELL_PSU_BYTES_TO_READ];  // container for the data from device
-
+    
     //reset the bus and make sure a device is present
     if (!psu_detected())
 	{
@@ -47,10 +47,12 @@ boolean DellPSU::read_data(){
       return false;                              // if not, return
     }
 
-    //read all of the bytes from the device
-    for ( i = 0; i < DELL_PSU_BYTES_TO_READ; i++) {    // Now it's time to read the PROM data itself, each page is 32 bytes so we need 32 read commands
+	//read all of the bytes from the device
+    _response_string="";
+	for ( i = 0; i < DELL_PSU_BYTES_TO_READ; i++) {    // Now it's time to read the PROM data itself, each page is 32 bytes so we need 32 read commands
       data[i] = _onewire.read();                  // we store each read byte to a different position in the data array
-    }
+      _response_string+=char(data[i]);
+	}
 
     //Parse the values from the string (characters 8,9,10 are the wattage. 11,12,13 are the voltage. 14,15,16 are the current)
     //the string below is an example of what is read from the device
@@ -94,6 +96,12 @@ uint16_t DellPSU::millivolts()
 uint16_t DellPSU::milliamps()
 {
   return _milliamps;
+}
+
+//return the raw string
+String DellPSU::response_string()
+{
+  return _response_string;
 }
 
 

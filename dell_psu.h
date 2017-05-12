@@ -10,8 +10,8 @@ MIT license, check license.txt for more information
 //this library requires the OneWire library (https://github.com/PaulStoffregen/OneWire)
 #include <OneWire.h>
 
-//we try to read up to x bytes from the device (16 bytes is the minimum to extract the power supply wattage, voltage, & amps
-#define DELL_PSU_BYTES_TO_READ 16
+//we try to read up to x bytes from the device (17 bytes is the minimum to extract the power supply wattage, voltage, & amps
+#define DELL_PSU_BYTES_TO_READ 17
 
 class DellPSU
 {
@@ -20,6 +20,7 @@ class DellPSU
       uint16_t _millivolts = 0;
       uint16_t _milliamps = 0;
       OneWire _onewire;
+	  String _response_string;
 
   public:
     DellPSU( uint8_t pin);
@@ -39,6 +40,9 @@ class DellPSU
     
     //get the milliamps
     uint16_t milliamps(void);   
+	
+	//get response string
+    String response_string(void);
 };
 
 #endif

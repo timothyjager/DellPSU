@@ -17,6 +17,7 @@ read_data	KEYWORD2
 watts	KEYWORD2
 millivolts	KEYWORD2
 milliamps	KEYWORD2
+response_string KEYWORD2
 
 
 #######################################
