@@ -9,7 +9,7 @@ Do not connect the 19.5V pin of the Dell power supply to the Arduino!!!!
 
 #include "dell_psu.h"
 
-DellPSU dell(6);   //specify the desired Arduino pin number  
+DellPSU dell(1);   //specify the desired Arduino pin number  
   
 void setup() {
   Serial.begin (115200);
@@ -19,7 +19,7 @@ void setup() {
 void loop() {
   if (dell.read_data()==true)
   {
-    Serial.println("");
+    Serial.println(dell.response_string());
     Serial.print(dell.watts());
     Serial.print("W "); 
     Serial.print(dell.millivolts());
