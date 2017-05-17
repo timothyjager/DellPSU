@@ -7,6 +7,7 @@
 #######################################
 
 DellPSU	KEYWORD1
+dell_psu KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
