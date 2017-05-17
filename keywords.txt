@@ -20,7 +20,6 @@ millivolts	KEYWORD2
 milliamps	KEYWORD2
 response_string KEYWORD2
 
-
 #######################################
 # Instances (KEYWORD2)
 #######################################
