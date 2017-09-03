@@ -7,7 +7,7 @@
 #######################################
 
 DellPSU	KEYWORD1
-dell_psu KEYWORD1
+dell_psu	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -18,7 +18,7 @@ read_data	KEYWORD2
 watts	KEYWORD2
 millivolts	KEYWORD2
 milliamps	KEYWORD2
-response_string KEYWORD2
+response_string	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
@@ -28,4 +28,4 @@ response_string KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-DELL_PSU_BYTES_TO_READ LITERAL1
+DELL_PSU_BYTES_TO_READ	LITERAL1
