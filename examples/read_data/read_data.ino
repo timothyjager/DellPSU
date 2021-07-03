@@ -19,7 +19,8 @@ void setup() {
 void loop() {
   if (dell.read_data()==true)
   {
-    Serial.println(dell.response_string());
+    Serial.write(dell.raw_response(), DELL_PSU_BYTES_TO_READ);
+    Serial.println();
     Serial.print(dell.watts());
     Serial.print("W "); 
     Serial.print(dell.millivolts());
