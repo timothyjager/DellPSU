@@ -15,36 +15,33 @@ MIT license, check license.txt for more information
 
 class DellPSU
 {
-  private:
-      uint16_t _watts = 0;
-      uint16_t _millivolts = 0;
-      uint16_t _milliamps = 0;
-      OneWire _onewire;
-	  String _response_string;
+private:
+  uint16_t _watts = 0;
+  uint16_t _millivolts = 0;
+  uint16_t _milliamps = 0;
+  OneWire _onewire;
+  char _resp[DELL_PSU_BYTES_TO_READ];
 
-  public:
-    DellPSU( uint8_t pin);
+public:
+  DellPSU(uint8_t pin);
 
-    //Determine if a device is present, return true on success
-    boolean psu_detected(void);
+  //Determine if a device is present, return true on success
+  boolean psu_detected(void);
 
-    //Read the data stream from the psu, return true on success
-    //String read_data(void);
-    boolean read_data(void);
-    
-    //get the watts
-    uint16_t watts(void);
-    
-    //get the millivolts
-    uint16_t millivolts(void);
-    
-    //get the milliamps
-    uint16_t milliamps(void);   
-	
-	//get response string
-    String response_string(void);
+  //Read the data stream from the psu, return true on success
+  boolean read_data(void);
+
+  //get the watts
+  uint16_t watts(void);
+
+  //get the millivolts
+  uint16_t millivolts(void);
+
+  //get the milliamps
+  uint16_t milliamps(void);
+
+  //get the raw response char array
+  char *raw_response(void);
 };
 
 #endif
-
-
