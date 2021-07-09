@@ -17,6 +17,9 @@ void setup() {
 }
 
 void loop() {
+  // NOTE: by default, we allow reading of non-genuine/3rd-party DELL 'compatible' adapters.
+  // if you wish to disable this, and only read DELL original adapters, replace the
+  // 'dell.read_data()' call with 'dell.read_data(false)'
   if (dell.read_data()==true)
   {
     Serial.write(dell.raw_response(), DELL_PSU_BYTES_TO_READ);

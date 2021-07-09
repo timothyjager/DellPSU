@@ -12,7 +12,9 @@ MIT license, check license.txt for more information
 
 //we try to read up to x bytes from the device (17 bytes is the minimum to extract the power supply wattage, voltage, & amps
 #define DELL_PSU_BYTES_TO_READ 17
-
+//For genuine/official chargers, this should be the expected response header
+// 'DELL00AC' -> ASCII decimal
+const uint8_t OFFICIAL_DELL_HEADER[8] PROGMEM = {68, 69, 76, 76, 48, 48, 65, 67};
 class DellPSU
 {
 private:
@@ -29,7 +31,7 @@ public:
   boolean psu_detected(void);
 
   //Read the data stream from the psu, return true on success
-  boolean read_data(void);
+  boolean read_data(bool allowReadingThirdPartyAdapter = true);
 
   //get the watts
   uint16_t watts(void);

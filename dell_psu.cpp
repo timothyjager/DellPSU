@@ -20,7 +20,7 @@ boolean DellPSU::psu_detected()
 }
 
 //Read all of the data from the device
-boolean DellPSU::read_data()
+boolean DellPSU::read_data(bool allowReadingThirdPartyAdapter = true)
 {
   byte i;
   byte command_bytes[3] = {                   // commands array to initiate a read command,LSB,MSB addresses
@@ -63,23 +63,32 @@ boolean DellPSU::read_data()
   //00000000  001     111        111       11122222222223333333333 <-these numbers are just index values used for counting character positions
   //01234567  890     123        456       78901234567890123456789 <-these numbers are just index values used for counting character positions
 
-  //First make sure this is actually a dell charger by parsing the header
-  if ((_resp[0] == 'D') & (_resp[1] == 'E') &
-      (_resp[2] == 'L') & (_resp[3] == 'L') &
-      (_resp[4] == '0') & (_resp[5] == '0') &
-      (_resp[6] == 'A') & (_resp[7] == 'C'))
+  //3rd-party 'Dell Compatible' chargers don't usually contain the official 'DELL' header(for obvious legal reasons), however,
+  //they do follow the rest of the data structure. To facilitate reading of these compatible chargers, the 'allowReadingThirdPartyAdapter'
+  //flag can be set TRUE, which skips the 'DELL official' header check.
+  //EXAMPLE: I have a 330W 'Dell compatible' charger, which reports the following:
+
+  //Header  | Watts | Volts*10 | Amps*10
+  //45CC0013   330       195      169
+
+  if (!allowReadingThirdPartyAdapter)
   {
-    //now convert from ASCII characters to integer values
-    //In order to keep everything as integers, we are using units like millivolts, milliamps so we don't have to represent 19.5 volts & 9.2 amps as floats.
-    _watts = 100 * (uint16_t)(_resp[8] - 48) + 10 * (uint16_t)(_resp[9] - 48) + (_resp[10] - 48);
-    _millivolts = 10000 * (uint16_t)(_resp[11] - 48) + 1000 * (uint16_t)(_resp[12] - 48) + 100 * (uint16_t)(_resp[13] - 48);
-    _milliamps = 10000 * (uint16_t)(_resp[14] - 48) + 1000 * (uint16_t)(_resp[15] - 48) + 100 * (uint16_t)(_resp[16] - 48);
-    return true;
+    // 3rd-party adapter reading not permitted. Verify DELL header
+    uint8_t headerResult = memcmp_P(_resp, OFFICIAL_DELL_HEADER, sizeof(OFFICIAL_DELL_HEADER));
+    if ( headerResult != 0)
+    {
+      // Header doesn't match expected. Bail
+      return false;
+    }
   }
-  else
-  {
-    return false;
-  }
+
+  //now convert from ASCII characters to integer values
+  //In order to keep everything as integers, we are using units like millivolts, milliamps so we don't have to represent 19.5 volts & 9.2 amps as floats.
+  _watts = 100 * (uint16_t)(_resp[8] - 48) + 10 * (uint16_t)(_resp[9] - 48) + (_resp[10] - 48);
+  _millivolts = 10000 * (uint16_t)(_resp[11] - 48) + 1000 * (uint16_t)(_resp[12] - 48) + 100 * (uint16_t)(_resp[13] - 48);
+  _milliamps = 10000 * (uint16_t)(_resp[14] - 48) + 1000 * (uint16_t)(_resp[15] - 48) + 100 * (uint16_t)(_resp[16] - 48);
+  
+  return true;
 }
 
 //return the watts
